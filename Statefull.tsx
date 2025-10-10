@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { ImageBackground } from "react-native";
 
 function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dzikir Digital</Text>
+      <Text style={styles.title}>State</Text>
       <MyComponent />
     </View>
   );
@@ -13,20 +12,51 @@ function App() {
 
 const MyComponent = () => {
   const [count, setCount] = useState(0);
+  const [message, setMessage] = useState('');
+  const minus = ()=>{
+    if(count > 0){
+      setCount(count - 1);
+    }
+  }
+
+  useEffect(() => {
+    if(count == 0) {
+      setMessage('Count to zero');
+    } else {
+      setMessage('Increment Values $(count');
+    }
+  }, [count]
+    )
+
   return (
     <View style={styles.box}>
-    <ImageBackground source={{require('./nabiel.png')}}
-    style={{width: '100%', height: 200, marginTop:10}}/>
       <Text style={styles.text}>Count: {count}</Text>
       <View style={{width: '90%'}}>
+        <StatusBar style="auto" />
+        <Text style={styles.text}>{message}</Text>
         <Button 
           title="Increment" 
           onPress={() => setCount(count + 1)} 
           color="#4CAF50" 
         />
+        <Button 
+          title="Decrement" 
+          onPress={() => setCount(count - 1)} 
+          color="#c30505ff" 
+        />
+        <Button 
+          title="Minus" 
+          onPress={minus} 
+          color="#f57c00" 
+        />
+        <Button
+          title="Reset"
+          onPress={() => setCount(0)}
+          />
       </View>    
     </View>
   );
+  
 }
 
 const styles = StyleSheet.create({
